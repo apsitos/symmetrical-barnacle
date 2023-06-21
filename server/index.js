@@ -15,7 +15,7 @@ app
     server.use(bodyParser.urlencoded({ extended: true }));
 
     server.get('/api/todolist', (req, res) => {
-      return res.send({ list: mockData.results });
+      return res.send(mockData);
     });
 
     server.get('*', (req, res) => {
@@ -23,13 +23,13 @@ app
     });
 
     server.post('/api/todolist/new', (req, res) => {
-      const record = json.parse(req.body);
+      const record = JSON.parse(req.body);
       mockData.push(record);
       res.send(200);
     });
 
     server.put('api/todolist/:id', (req, res) => {
-      const record = json.parse(req.body);
+      const record = JSON.parse(req.body);
       const index = mockData.findIndex(
         (item) => item.id === parseInt(req.params.id)
       );

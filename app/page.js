@@ -5,13 +5,20 @@ import data from '../data/todos.json';
 import ItemDisplay from './ItemDisplay';
 
 export default function Home() {
-  const [list, setList] = useState([]);
+  const [list, setList] = useState(null);
   const [text, setText] = useState('');
   const [checked, setChecked] = useState([]);
 
   useEffect(() => {
-    const mockData = data.results;
-    setList(mockData);
+    async function fetchData() {
+      const mockData = await fetch('/api/todolist', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      console.log(mockData);
+      setList(JSON.parse(mockData.body));
+    }
+    fetchData();
   }, []);
 
   function handleTextInput(e) {
@@ -38,7 +45,7 @@ export default function Home() {
       markedComplete: false,
     };
 
-    const result = await fetch('localhost:3000/api/todolist/new', {
+    const result = await fetch('/api/todolist/new', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(record),
@@ -48,7 +55,7 @@ export default function Home() {
 
   async function handleSave(record) {
     console.log('This will be saved', record);
-    const result = fetch(`localhost:3000/api/todolist/${record.id}`, {
+    const result = fetch(`/api/todolist/${record.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(record),
@@ -58,7 +65,7 @@ export default function Home() {
   }
 
   async function handleDelete(item) {
-    const result = await fetch(`localhost:3000/api/todolist/${item.id}`, {
+    const result = await fetch(`/api/todolist/${item.id}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -91,7 +98,7 @@ export default function Home() {
       </div>
 
       <div className='items-left w-4/12'>
-        {list.map((item) => (
+        {list?.map((item) => (
           <ItemDisplay
             checked={checked}
             item={item}
