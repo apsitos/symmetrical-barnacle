@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Javascript Full Stack Todo List Exercise
 
-## Getting Started
+First off, thank you for both your time and your interest in Tonic! Please create a single-page todo list application. We prefer you time box this exercise to approximately 3&ndash;3.5 hours, and is not expected to be perfect. Most importantly, it should demonstrate your skill set, and give us a better idea of how you approach problems and construct solutions.
 
-First, run the development server:
+Feel free to use any resources that you would normally have at your disposal (Google, Stack Overflow, etc.), and do not hesitate to [contact us](mailto:developer@hellotonic.com) if you have any questions.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## Minimum Requirements
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+There are no specific requirements about how you build the app. At a minimum, however, your application should fulfill the following:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- Use React or NextJS for the FrontEnd
+- Use a CSS framework of your choice
+- Use a CSS convention of your choice (Preprocessors, Modules, CSS-in-JS, etc.)
+- Implement all CRUD actions
+- Implement routing
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Implement a Node/Express Backend
+- Setup a few CRUD routes/endpoints for the app
+- No need for a datastore, you can just echo back static results
 
-## Learn More
+## Bonus Points
 
-To learn more about Next.js, take a look at the following resources:
+- Add a persistence layer
+- Deploy the application
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Submission Guidelines
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-# symmetrical-barnacle
+Please create a new repository on GitHub and send us a link. Do not fork this repository. Alternatively, you may send us an archive by [email](mailto:developer@hellotonic.com).
