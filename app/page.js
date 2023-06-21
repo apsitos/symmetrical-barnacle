@@ -18,11 +18,6 @@ export default function Home() {
     setText(e.target.value);
   }
 
-  function handleAdd() {
-    console.log('Adding to do item', text);
-    // POST text to create endpoint
-  }
-
   function handleCheckbox(e) {
     let newChecked = [...checked];
     if (e.target.checked) {
@@ -33,12 +28,39 @@ export default function Home() {
     setChecked(newChecked);
   }
 
-  function handleSave(e) {
-    // UPDATE item
+  async function handleAdd() {
+    console.log('Adding to do item', text);
+    const record = {
+      id: (list.length += 1),
+      text: text,
+      createdAt: Date.now(),
+      lastEdited: '',
+      markedComplete: false,
+    };
+
+    const result = await fetch('localhost:3000/api/todolist/new', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(record),
+    });
+    // if (result.error) show dialog that error occurred
   }
 
-  function handleDelete(e) {
-    // DELETE item
+  async function handleSave(item) {
+    const record = { ...item }; // TODO actually implement the updating: need to save the updated text!
+    const result = fetch(`localhost:3000/api/todolist/${item.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(record),
+    });
+  }
+
+  async function handleDelete(item) {
+    const result = await fetch(`localhost:3000/api/todolist/${item.id}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    // if (result.error) show dialog that error occurred
   }
 
   return (
@@ -77,3 +99,18 @@ export default function Home() {
     </main>
   );
 }
+
+/*
+This is the previous way of serving server side
+
+export async function getServerSideProps(context) {
+  const { todo } = await fetch('http://localhost:3000/api/todo', {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  }).then((resp) => resp.json());
+
+  return {
+    props: { todo },
+  };
+}
+*/

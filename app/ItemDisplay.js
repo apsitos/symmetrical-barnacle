@@ -19,7 +19,10 @@ export default function ItemDisplay({
         >
           Edit
         </button>
-        <button className='bg-charcoal text-white rounded-md p-1'>
+        <button
+          className='bg-charcoal text-white rounded-md p-1'
+          onClick={() => handleDelete(item)}
+        >
           Delete
         </button>
       </div>
