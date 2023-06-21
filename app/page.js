@@ -46,13 +46,15 @@ export default function Home() {
     // if (result.error) show dialog that error occurred
   }
 
-  async function handleSave(item) {
-    const record = { ...item }; // TODO actually implement the updating: need to save the updated text!
-    const result = fetch(`localhost:3000/api/todolist/${item.id}`, {
+  async function handleSave(record) {
+    console.log('This will be saved', record);
+    const result = fetch(`localhost:3000/api/todolist/${record.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(record),
     });
+    const resetChecked = [...checked].filter((old) => old.id !== record.id);
+    setChecked(resetChecked);
   }
 
   async function handleDelete(item) {
@@ -61,6 +63,7 @@ export default function Home() {
       headers: { 'Content-Type': 'application/json' },
     });
     // if (result.error) show dialog that error occurred
+    // GET updated list
   }
 
   return (
@@ -71,7 +74,7 @@ export default function Home() {
         <input
           type='text'
           className='h-10 w-96 px-3 mx-4 rounded'
-          onChange={(e) => handleTextInput(e)}
+          onChange={handleTextInput}
           value={text}
         />
         <div className='flex justify-between w-1/6'>
@@ -88,20 +91,24 @@ export default function Home() {
       </div>
 
       <div className='items-left w-4/12'>
-        <ItemDisplay
-          list={list}
-          checked={checked}
-          handleCheckbox={handleCheckbox}
-          handleDelete={handleDelete}
-          handleSave={handleSave}
-        />
+        {list.map((item) => (
+          <ItemDisplay
+            checked={checked}
+            item={item}
+            key={item.id}
+            handleCheckbox={handleCheckbox}
+            handleDelete={handleDelete}
+            handleSave={handleSave}
+          />
+        ))}
       </div>
     </main>
   );
 }
 
 /*
-This is the previous way of serving server side
+
+This is the previous way of doing things:
 
 export async function getServerSideProps(context) {
   const { todo } = await fetch('http://localhost:3000/api/todo', {

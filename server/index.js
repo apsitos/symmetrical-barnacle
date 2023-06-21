@@ -28,14 +28,6 @@ app
       res.send(200);
     });
 
-    server.delete('api/todolist/:id', (req, res) => {
-      const newList = mockData.filter(
-        (item) => item.id !== parseInt(req.params.id)
-      );
-      // set newList into the datastore
-      res.send(200, newList);
-    });
-
     server.put('api/todolist/:id', (req, res) => {
       const record = json.parse(req.body);
       const index = mockData.findIndex(
@@ -43,6 +35,14 @@ app
       );
       mockData[index] = { ...mockData[index], ...record };
       res.send(200, mockData[index]);
+    });
+
+    server.delete('api/todolist/:id', (req, res) => {
+      const newList = mockData.filter(
+        (item) => item.id !== parseInt(req.params.id)
+      );
+      // set newList into the datastore
+      res.send(200, newList);
     });
 
     server.listen(3000, (err) => {

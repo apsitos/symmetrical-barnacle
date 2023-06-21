@@ -1,13 +1,23 @@
+import { useState } from 'react';
+
 export default function ItemDisplay({
-  list,
   checked,
+  item,
   handleCheckbox,
   handleDelete,
   handleSave,
 }) {
-  function handleEdit() {
-    // This will display an text field prepopulated with the current item's text, will change the buttons to a single SAVE
-    console.log('TO DO');
+  const [isEditing, setIsEditing] = useState(false);
+  const [editText, setEditText] = useState('');
+
+  function handleButton() {
+    if (isEditing) {
+      const updated = { ...item, text: editText };
+      handleSave(updated);
+      return setIsEditing(!isEditing);
+    }
+    setIsEditing(!isEditing);
+    setEditText(item.text);
   }
 
   const showButtons = (item) => {
@@ -15,9 +25,9 @@ export default function ItemDisplay({
       <div className='ml-2 flex justify-between w-4/12'>
         <button
           className='bg-charcoal text-white rounded-md p-1'
-          onClick={() => handleEdit(item)}
+          onClick={() => handleButton()}
         >
-          Edit
+          {isEditing ? 'Save' : 'Edit'}
         </button>
         <button
           className='bg-charcoal text-white rounded-md p-1'
@@ -29,13 +39,20 @@ export default function ItemDisplay({
     );
   };
 
-  return list.map((item) => {
-    return (
-      <div className='flex items-center h-10' key={item.id}>
-        <input type='checkbox' id={item.id} onClick={handleCheckbox} />
+  return (
+    <div className='flex items-center h-10'>
+      <input type='checkbox' id={item.id} onClick={handleCheckbox} />
+      {isEditing ? (
+        <input
+          type='text'
+          className='ml-3'
+          value={editText}
+          onChange={(e) => setEditText(e.target.value)}
+        />
+      ) : (
         <p className='ml-3'>{item.text}</p>
-        {checked.includes(item.id) && showButtons(item)}
-      </div>
-    );
-  });
+      )}
+      {checked.includes(item.id) && showButtons(item)}
+    </div>
+  );
 }
