@@ -33,9 +33,13 @@ export default function Home() {
     setChecked(newChecked);
   }
 
-  function handleEdit() {}
+  function handleSave(e) {
+    // UPDATE item
+  }
 
-  function handleDelete() {}
+  function handleDelete(e) {
+    // DELETE item
+  }
 
   return (
     <main className='flex min-h-screen flex-col items-center p-24'>
@@ -58,9 +62,6 @@ export default function Home() {
           <button className='bg-charcoal text-white rounded-md p-2'>
             Show All
           </button>
-          {/* <button className='bg-charcoal text-white rounded-md p-2'>
-            Sort by Most Recent
-          </button> */}
         </div>
       </div>
 
@@ -70,7 +71,7 @@ export default function Home() {
           checked={checked}
           handleCheckbox={handleCheckbox}
           handleDelete={handleDelete}
-          handleEdit={handleEdit}
+          handleSave={handleSave}
         />
       </div>
     </main>
