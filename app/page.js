@@ -1,7 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
 
-import data from '../data/todos.json';
 import ItemDisplay from './ItemDisplay';
 
 export default function Home() {
@@ -11,12 +10,12 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchData() {
-      const mockData = await fetch('/api/todolist', {
+      const response = await fetch('/api/todolist', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
-      });
-      console.log(mockData);
-      setList(JSON.parse(mockData.body));
+      }).then((res) => res.json());
+      console.log(response);
+      setList(response.results);
     }
     fetchData();
   }, []);
@@ -36,7 +35,6 @@ export default function Home() {
   }
 
   async function handleAdd() {
-    console.log('Adding to do item', text);
     const record = {
       id: (list.length += 1),
       text: text,
@@ -49,17 +47,18 @@ export default function Home() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(record),
-    });
+    }).then((res) => res.json());
     // if (result.error) show dialog that error occurred
+    setList(result.results);
   }
 
   async function handleSave(record) {
     console.log('This will be saved', record);
-    const result = fetch(`/api/todolist/${record.id}`, {
+    const result = await fetch(`/api/todolist/${record.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(record),
-    });
+    }).then((res) => res.json());
     const resetChecked = [...checked].filter((old) => old.id !== record.id);
     setChecked(resetChecked);
   }
@@ -68,9 +67,9 @@ export default function Home() {
     const result = await fetch(`/api/todolist/${item.id}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
-    });
+    }).then((res) => res.json());
     // if (result.error) show dialog that error occurred
-    // GET updated list
+    setList(result);
   }
 
   return (
@@ -112,19 +111,3 @@ export default function Home() {
     </main>
   );
 }
-
-/*
-
-This is the previous way of doing things:
-
-export async function getServerSideProps(context) {
-  const { todo } = await fetch('http://localhost:3000/api/todo', {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-  }).then((resp) => resp.json());
-
-  return {
-    props: { todo },
-  };
-}
-*/

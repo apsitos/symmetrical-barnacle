@@ -23,27 +23,27 @@ app
     });
 
     server.post('/api/todolist/new', (req, res) => {
-      const record = JSON.parse(req.body);
-      mockData.push(record);
-      res.send(200);
+      const record = req.body;
+      mockData.results.push(record);
+      res.status(200).send(mockData);
     });
 
     server.put('api/todolist/:id', (req, res) => {
-      const record = JSON.parse(req.body);
+      const record = req.body;
       const index = mockData.findIndex(
         (item) => item.id === parseInt(req.params.id)
       );
       mockData[index] = { ...mockData[index], ...record };
-      res.send(200, mockData[index]);
-    });
+      res.status(200).send({ response });
+    }); // broken, needs more research
 
     server.delete('api/todolist/:id', (req, res) => {
       const newList = mockData.filter(
         (item) => item.id !== parseInt(req.params.id)
       );
       // set newList into the datastore
-      res.send(200, newList);
-    });
+      res.status(200).send({ newList });
+    }); // broken, needs more research
 
     server.listen(3000, (err) => {
       if (err) throw err;
